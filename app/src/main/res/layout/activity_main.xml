@@ -15,9 +15,8 @@
             android:id="@+id/image_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:contentDescription="@string/app_name"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@tools:sample/avatars"
+            android:contentDescription="@string/app_name"/>
 
         <Button
             android:id="@+id/button1"
