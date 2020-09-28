@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button3;
     private Button button4;
     private Button button5;
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +34,26 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-        final MediaPlayer mp = MediaPlayer.create(this, R.raw.lick_lick_lick);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mp.start();
-            }
-        });
     }
 
+    public void sound1(View v) {
 
+    }
+
+    public void sound2(View v) {
+
+    }
+
+    public void sound3(View v) {
+
+    }
+
+    public void sound4(View v) {
+
+    }
+
+    public void sound5(View v) {
+
+    }
 
 }

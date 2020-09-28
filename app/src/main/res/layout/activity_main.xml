@@ -24,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:text="@string/Button" />
+            android:text="@string/Button"
+            android:onClick="sound1"/>
 
         <Button
             android:id="@+id/button2"
@@ -32,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:text="@string/Button" />
+            android:text="@string/Button"
+            android:onClick="sound2"/>
 
         <Button
             android:id="@+id/button3"
@@ -40,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:text="@string/Button" />
+            android:text="@string/Button"
+            android:onClick="sound3" />
 
         <Button
             android:id="@+id/button4"
@@ -48,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:text="@string/Button" />
+            android:text="@string/Button"
+            android:onClick="sound4" />
 
         <Button
             android:id="@+id/button5"
@@ -56,7 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:text="@string/Button" />
+            android:text="@string/Button"
+            android:onClick="sound5" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
