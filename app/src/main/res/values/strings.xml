@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SoundBoarding</string>
+    <string name="Button">Sound</string>
+
 </resources>
