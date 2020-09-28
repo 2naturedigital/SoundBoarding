@@ -15,8 +15,9 @@
             android:id="@+id/image_app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars"
-            android:contentDescription="@string/app_name"/>
+            android:layout_gravity="center"
+            android:contentDescription="@string/app_name"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <Button
             android:id="@+id/button1"
@@ -24,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_gravity="center"
-            android:text="@string/Button"/>
+            android:text="@string/Button" />
 
         <Button
             android:id="@+id/button2"
