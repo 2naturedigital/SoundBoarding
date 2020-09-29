@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<item android:id="@+id/action_options_1"
+    android:title="@string/Sound1"
+    app:showAsAction="always" />
+<item android:id="@+id/action_options_2"
+    android:title="@string/Sound2"
+    app:showAsAction="always" />
+<item android:id="@+id/action_options_3"
+    android:title="@string/Sound3"
+    app:showAsAction="ifRoom" />
+<item android:id="@+id/action_options_4"
+    android:title="@string/Sound4"
+    app:showAsAction="ifRoom" />
+<item android:id="@+id/action_options_5"
+    android:title="@string/Sound5"
+    app:showAsAction="ifRoom" />
+<item android:id="@+id/action_options_6"
+    android:title="@string/Sound6"
+    app:showAsAction="ifRoom" />
+<item android:id="@+id/action_options_7"
+    android:title="@string/Sound7"
+    app:showAsAction="ifRoom" />
+
+</menu>

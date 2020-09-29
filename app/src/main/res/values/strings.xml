@@ -2,4 +2,11 @@
     <string name="app_name">SoundBoarding</string>
     <string name="Button">Sound</string>
     <string name="Follow">Social Media URLs</string>
+    <string name="Sound1">burn_out_the_computer</string>
+    <string name="Sound2">i_like_what_you_got</string>
+    <string name="Sound3">lick_lick_lick</string>
+    <string name="Sound4">ooh_yeah_can_do</string>
+    <string name="Sound5">portal_gun_louder</string>
+    <string name="Sound6">squeeze_them</string>
+    <string name="Sound7">what_did_you_do</string>
 </resources>

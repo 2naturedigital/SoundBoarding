@@ -9,6 +9,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toTopOf="parent"></ListView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,6 +28,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/title2crop2"
             android:contentDescription="@string/app_name"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
