@@ -5,22 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
+
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    //private MaterialButton button1;
     private Button button1;
     private Button button2;
     private Button button3;
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     private Button button5;
     private MediaPlayer mp;
     public String btn_1_sound_file;
+    private Uri filepathUri;
+    private String filepathString;
+    private String filename;
     //public List<String> sounds;
 
     @Override
@@ -36,10 +41,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         button1 = findViewById(R.id.button1);
+        //button1 = findViewById(R.id.mButton1);
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
         button4 = findViewById(R.id.button4);
         button5 = findViewById(R.id.button5);
+
+        filename = "lick_lick_lick.mp3";
+        File file = new File(this.getFilesDir(), filename);
+        filepathUri = Uri.fromFile(file);
+
 
         /*sounds = new ArrayList<>();
         sounds.add("burn_out_the_computer");
@@ -51,21 +62,10 @@ public class MainActivity extends AppCompatActivity {
         sounds.add("what_did_you_do");
         btn_1_sound_file = sounds.get(1);*/
 
+
         btn_1_sound_file = "burn_out_the_computer";
 
-        button1.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                //int soundID = (int)(Math.random() * 7 + 1);
-                //btn_1_sound_file = sounds.get(soundID);
-                btn_1_sound_file = "what_did_you_do";
-                Toast.makeText(view.getContext(), "Changed!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.setType("*/*");
-                startActivityForResult(intent, 1);
-                return false;
-            }
-        });
+
     }
 
     public void sound1(View v) {
@@ -95,9 +95,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // handle result
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            if (requestCode == 1) {
-                Uri uri = data.getData();
+        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+            Uri uri = null;
+            if (data != null) {
+                uri = data.getData();
                 // try getting new sound via Uri
                 try {
                     Log.i("cs50", "Uri: " + uri);

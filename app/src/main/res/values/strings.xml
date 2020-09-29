@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">SoundBoarding</string>
     <string name="Button">Sound</string>
-
+    <string name="Follow">Social Media URLs</string>
 </resources>
