@@ -1,27 +1,16 @@
 package edu.finalproject.cs50.soundboarding;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
-import android.util.Log;
 import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
-import java.io.FileDescriptor;
-import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private Button button4;
     private Button button5;
     private MediaPlayer mp;
-    public String btn_1_sound_file;
-    public String btn_2_sound_file;
-    public String btn_3_sound_file;
-    public String btn_4_sound_file;
-    public String btn_5_sound_file;
-    List<String> sounds = new ArrayList<>();
+    List<Integer> btn_strings = new ArrayList<>();
+    public int current_button = 0;
+    List<Integer> sounds = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,25 +45,35 @@ public class MainActivity extends AppCompatActivity {
         registerForContextMenu(button4);
         registerForContextMenu(button5);
 
-        sounds.add("burn_out_the_computer");
-        sounds.add("i_like_what_you_got");
-        sounds.add("lick_lick_lick");
-        sounds.add("ooh_yeah_can_do");
-        sounds.add("portal_gun_louder");
-        sounds.add("squeeze_them");
-        sounds.add("what_did_you_do");
+        // loads our sounds from 'raw'
+        try {
+            listRaw();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
-
+        // set up random starting sounds
         int soundID = (int)(Math.random() * 6 + 1);
-        btn_1_sound_file = sounds.get(soundID);
+        btn_strings.add(0, sounds.get(soundID));
         soundID = (int)(Math.random() * 6 + 1);
-        btn_2_sound_file = sounds.get(soundID);
+        btn_strings.add(1, sounds.get(soundID));
         soundID = (int)(Math.random() * 6 + 1);
-        btn_3_sound_file = sounds.get(soundID);
+        btn_strings.add(2, sounds.get(soundID));
         soundID = (int)(Math.random() * 6 + 1);
-        btn_4_sound_file = sounds.get(soundID);
+        btn_strings.add(3, sounds.get(soundID));
         soundID = (int)(Math.random() * 6 + 1);
-        btn_5_sound_file = sounds.get(soundID);
+        btn_strings.add(4, sounds.get(soundID));
+
+
+    }
+
+    // loads our sounds from 'raw'
+    public void listRaw() throws IllegalAccessException {
+        Field[] fields = R.raw.class.getFields();
+        for (Field field : fields) {
+            int resourceID = field.getInt(field);
+            sounds.add(resourceID);
+        }
     }
 
     // creates a list of items to select from on long press
@@ -85,40 +81,55 @@ public class MainActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
 
+        switch (view.getId()) {
+            case R.id.button1:
+                current_button = 0;
+            case R.id.button2:
+                current_button = 1;
+            case R.id.button3:
+                current_button = 2;
+            case R.id.button4:
+                current_button = 3;
+            case R.id.button5:
+                current_button = 4;
+            default:
+                current_button = 0;
+        }
         menu.setHeaderTitle("Choose your sound");
         getMenuInflater().inflate(R.menu.sound_options_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        // change the button sound based on which item was selected
         switch(item.getItemId()) {
             case R.id.action_options_1:
-                btn_1_sound_file = sounds.get(0);
-                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
+                btn_strings.set(current_button, sounds.get(0));
+                Toast.makeText(this, "Changed!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_options_2:
-                btn_1_sound_file = sounds.get(1);
-                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
+                btn_strings.set(current_button, sounds.get(1));
+                Toast.makeText(this, "Changed!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_options_3:
-                btn_1_sound_file = sounds.get(2);
-                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
+                btn_strings.set(current_button, sounds.get(2));
+                Toast.makeText(this, "Changed!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_options_4:
-                btn_1_sound_file = sounds.get(3);
-                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
+                btn_strings.set(current_button, sounds.get(3));
+                Toast.makeText(this, "Changed!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_options_5:
-                btn_1_sound_file = sounds.get(4);
-                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
+                btn_strings.set(current_button, sounds.get(4));
+                Toast.makeText(this, "Changed!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_options_6:
-                btn_1_sound_file = sounds.get(5);
-                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
+                btn_strings.set(current_button, sounds.get(5));
+                Toast.makeText(this, "Changed!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_options_7:
-                btn_1_sound_file = sounds.get(6);
-                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
+                btn_strings.set(current_button, sounds.get(6));
+                Toast.makeText(this, "Changed!", Toast.LENGTH_SHORT).show();
                 return true;
             case 100:
                 //Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -130,85 +141,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void sound1(View v) {
-        int resID = getResources().getIdentifier(btn_1_sound_file,"raw", getPackageName());
-        mp = MediaPlayer.create(this, resID);
+        //int resID = getResources().getIdentifier(btn_strings.get(0),"raw", getPackageName());
+        mp = MediaPlayer.create(this, btn_strings.get(0));
         mp.start();
     }
 
     public void sound2(View v) {
-        int resID = getResources().getIdentifier(btn_2_sound_file,"raw", getPackageName());
-        mp = MediaPlayer.create(this, resID);
+        //int resID = getResources().getIdentifier(btn_strings.get(1),"raw", getPackageName());
+        mp = MediaPlayer.create(this, btn_strings.get(1));
         mp.start();
     }
 
     public void sound3(View v) {
-        int resID = getResources().getIdentifier(btn_3_sound_file,"raw", getPackageName());
-        mp = MediaPlayer.create(this, resID);
+        //int resID = getResources().getIdentifier(btn_strings.get(2),"raw", getPackageName());
+        mp = MediaPlayer.create(this, btn_strings.get(2));
         mp.start();
     }
 
     public void sound4(View v) {
-        int resID = getResources().getIdentifier(btn_4_sound_file,"raw", getPackageName());
-        mp = MediaPlayer.create(this, resID);
+        //int resID = getResources().getIdentifier(btn_strings.get(3),"raw", getPackageName());
+        mp = MediaPlayer.create(this, btn_strings.get(3));
         mp.start();
     }
 
     public void sound5(View v) {
-        int resID = getResources().getIdentifier(btn_5_sound_file,"raw", getPackageName());
-        mp = MediaPlayer.create(this, resID);
+        //int resID = getResources().getIdentifier(btn_strings.get(4),"raw", getPackageName());
+        mp = MediaPlayer.create(this, btn_strings.get(4));
         mp.start();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // handle result
-        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
-            Uri uri;
-            if (data != null) {
-                uri = data.getData();
-                // try getting new sound via Uri
-                try {
-                    Log.i("cs50", "Uri: " + uri);
-                    if (uri != null) {
-                        mp.setDataSource(this, uri);
-                    }
-                } catch (IOException e) {
-                    Log.i("cs50", "ERROR HIT", e);
-                    e.printStackTrace();
-                }
-                // try getting new sound via FileDescriptor
-                try {
-                    ParcelFileDescriptor parcelFileDescriptor = null;
-                    if (uri != null) {
-                        parcelFileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
-                    }
-                    FileDescriptor fileDescriptor = null;
-                    if (parcelFileDescriptor != null) {
-                        fileDescriptor = parcelFileDescriptor.getFileDescriptor();
-                    }
-
-                    if (fileDescriptor != null) {
-                        Log.i("cs50", "File Descriptor: " + fileDescriptor.toString());
-                        mp.setDataSource(fileDescriptor);
-                    }
-
-                    if (parcelFileDescriptor != null) {
-                        parcelFileDescriptor.close();
-                    }
-                } catch (IOException e) {
-                    Log.e("cs50", "Media not found", e);
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
