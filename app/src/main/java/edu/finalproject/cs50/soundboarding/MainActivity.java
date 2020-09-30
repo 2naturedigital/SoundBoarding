@@ -2,6 +2,7 @@ package edu.finalproject.cs50.soundboarding;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     List<Integer> btn_strings = new ArrayList<>();
     public int current_button = 0;
     List<Integer> sounds = new ArrayList<>();
+    Map<String, Integer> dicky = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +77,14 @@ public class MainActivity extends AppCompatActivity {
         Field[] fields = R.raw.class.getFields();
         for (Field field : fields) {
             int resourceID = field.getInt(field);
+            String s = field.getName();
+            String t = s.substring(0,1)
+                    .toUpperCase() + s.substring(1)
+                    .toLowerCase()
+                    .replaceAll("_", " ");
             sounds.add(resourceID);
+            dicky.put(t, resourceID);
+            Log.i("file name ", t);
         }
     }
 
@@ -102,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 current_button = 0;
         }
 
-        menu.setHeaderTitle("Choose your sound");
+        menu.setHeaderTitle("Select sound");
         getMenuInflater().inflate(R.menu.sound_options_menu, menu);
     }
 
