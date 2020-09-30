@@ -25,10 +25,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.google.android.material.button.MaterialButton;
 
 public class MainActivity extends AppCompatActivity {
-    //private MaterialButton button1;
+
     private Button button1;
     private Button button2;
     private Button button3;
@@ -36,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private Button button5;
     private MediaPlayer mp;
     public String btn_1_sound_file;
-    private Uri filepathUri;
-    private String filepathString;
     private String filename;
     List<String> sounds = new ArrayList<>();
     ListView listView;
@@ -48,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         button1 = findViewById(R.id.button1);
         //button1 = findViewById(R.id.mButton1);
         button2 = findViewById(R.id.button2);
@@ -57,9 +52,7 @@ public class MainActivity extends AppCompatActivity {
         button4 = findViewById(R.id.button4);
         button5 = findViewById(R.id.button5);
 
-        filename = "lick_lick_lick.mp3";
-        File file = new File(this.getFilesDir(), filename);
-        filepathUri = Uri.fromFile(file);
+
 
         // adding list view to select items from
         listView = findViewById(R.id.list_view);
