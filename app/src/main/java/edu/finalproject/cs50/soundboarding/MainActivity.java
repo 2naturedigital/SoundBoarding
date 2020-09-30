@@ -81,20 +81,27 @@ public class MainActivity extends AppCompatActivity {
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
 
+        // save which button was long pressed
         switch (view.getId()) {
             case R.id.button1:
                 current_button = 0;
+                break;
             case R.id.button2:
                 current_button = 1;
+                break;
             case R.id.button3:
                 current_button = 2;
+                break;
             case R.id.button4:
                 current_button = 3;
+                break;
             case R.id.button5:
                 current_button = 4;
+                break;
             default:
                 current_button = 0;
         }
+
         menu.setHeaderTitle("Choose your sound");
         getMenuInflater().inflate(R.menu.sound_options_menu, menu);
     }
