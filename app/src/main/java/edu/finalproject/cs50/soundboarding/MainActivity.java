@@ -35,10 +35,11 @@ public class MainActivity extends AppCompatActivity {
     private Button button5;
     private MediaPlayer mp;
     public String btn_1_sound_file;
-    private String filename;
+    public String btn_2_sound_file;
+    public String btn_3_sound_file;
+    public String btn_4_sound_file;
+    public String btn_5_sound_file;
     List<String> sounds = new ArrayList<>();
-    ListView listView;
-    MenuItem selectedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +47,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         button1 = findViewById(R.id.button1);
-        //button1 = findViewById(R.id.mButton1);
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
         button4 = findViewById(R.id.button4);
         button5 = findViewById(R.id.button5);
 
-
-
         // adding list view to select items from
-        listView = findViewById(R.id.list_view);
         registerForContextMenu(button1);
+        registerForContextMenu(button2);
+        registerForContextMenu(button3);
+        registerForContextMenu(button4);
+        registerForContextMenu(button5);
 
         sounds.add("burn_out_the_computer");
         sounds.add("i_like_what_you_got");
@@ -67,57 +68,64 @@ public class MainActivity extends AppCompatActivity {
         sounds.add("what_did_you_do");
 
 
-        btn_1_sound_file = "burn_out_the_computer";
-
-        button1.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                int soundID = (int)(Math.random() * 6 + 1);
-                btn_1_sound_file = sounds.get(soundID);
-                //btn_1_sound_file = "what_did_you_do";
-                Toast.makeText(view.getContext(), "Changed!", Toast.LENGTH_LONG).show();
-                //Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                //intent.setType("*/*");
-                //startActivityForResult(intent, 1);
-                return false;
-            }
-        });
+        int soundID = (int)(Math.random() * 6 + 1);
+        btn_1_sound_file = sounds.get(soundID);
+        soundID = (int)(Math.random() * 6 + 1);
+        btn_2_sound_file = sounds.get(soundID);
+        soundID = (int)(Math.random() * 6 + 1);
+        btn_3_sound_file = sounds.get(soundID);
+        soundID = (int)(Math.random() * 6 + 1);
+        btn_4_sound_file = sounds.get(soundID);
+        soundID = (int)(Math.random() * 6 + 1);
+        btn_5_sound_file = sounds.get(soundID);
     }
 
     // creates a list of items to select from on long press
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
-        Toast.makeText(view.getContext(), "MADE IT TO CONTEXT CREATION", Toast.LENGTH_SHORT);
+
+        menu.setHeaderTitle("Choose your sound");
         getMenuInflater().inflate(R.menu.sound_options_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()) {
             case R.id.action_options_1:
                 btn_1_sound_file = sounds.get(0);
+                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_options_2:
                 btn_1_sound_file = sounds.get(1);
+                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_options_3:
                 btn_1_sound_file = sounds.get(2);
+                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_options_4:
                 btn_1_sound_file = sounds.get(3);
+                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_options_5:
                 btn_1_sound_file = sounds.get(4);
+                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_options_6:
                 btn_1_sound_file = sounds.get(5);
+                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.action_options_7:
                 btn_1_sound_file = sounds.get(6);
+                Toast.makeText(this, "Changed!", Toast.LENGTH_LONG).show();
                 return true;
+            case 100:
+                //Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                //intent.setType("");
+                //startActivityForResult(intent, 1);
             default:
+                Toast.makeText(this, "No Change", Toast.LENGTH_LONG).show();
                 return super.onContextItemSelected(item);
         }
     }
@@ -130,19 +138,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sound2(View v) {
-
+        int resID = getResources().getIdentifier(btn_2_sound_file,"raw", getPackageName());
+        mp = MediaPlayer.create(this, resID);
+        mp.start();
     }
 
     public void sound3(View v) {
-
+        int resID = getResources().getIdentifier(btn_3_sound_file,"raw", getPackageName());
+        mp = MediaPlayer.create(this, resID);
+        mp.start();
     }
 
     public void sound4(View v) {
-
+        int resID = getResources().getIdentifier(btn_4_sound_file,"raw", getPackageName());
+        mp = MediaPlayer.create(this, resID);
+        mp.start();
     }
 
     public void sound5(View v) {
-
+        int resID = getResources().getIdentifier(btn_5_sound_file,"raw", getPackageName());
+        mp = MediaPlayer.create(this, resID);
+        mp.start();
     }
 
     @Override
