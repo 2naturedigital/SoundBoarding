@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,12 +19,15 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Class constants
+    final Integer buttonCount = 5;
+
+    // Class variables
     private MediaPlayer mp;
     List<Integer> soundsIDList = new ArrayList<>();
-    List<Integer> buttonSoundIDList = new ArrayList<>();
-    Map<Integer, String> soundIDMap = new HashMap<>();
-    Button[] buttonList;
-    private int current_button = 0;
+    List<Integer> buttonIDList = new ArrayList<>();
+    Map<Integer, String> soundIDtoStringMap = new HashMap<>();
+    Map<Integer, Integer> buttonIDtoSoundIDMap = new HashMap<>();
 
 
     @Override
@@ -33,14 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Populate containers from installed sound files
+        initFromRaw();
         // Initialize buttons
         buttonInit();
-
-        // Populate ArrayList "soundsIDList" and HashMap "soundIDMap" with sound files
-        initFromRaw();
-
-        // Set up random starting sounds
-        soundInit();
     }
 
 
@@ -49,47 +47,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, view, menuInfo);
 
-        // Save which button was long pressed
-        //TODO find a better way to do this maybe
-        switch (view.getId()) {
-            case R.id.button1:
-                current_button = 0;
-                break;
-            case R.id.button2:
-                current_button = 1;
-                break;
-            case R.id.button3:
-                current_button = 2;
-                break;
-            case R.id.button4:
-                current_button = 3;
-                break;
-            case R.id.button5:
-                current_button = 4;
-                break;
-            default:
-                current_button = 0;
-        }
-
         // Sets the menu header and adds menu items based on strings created in initFromRaw()
         menu.setHeaderTitle("Select Sound");
-        for (int id : soundsIDList) {
-            menu.add(0, id, 0, soundIDMap.get(id));
+        Log.i("SOUNDBOARDING_SanityCheck", "Button ID: " + view.getId());
+        for (Map.Entry<Integer, String> entry : soundIDtoStringMap.entrySet()) {
+            menu.add(view.getId(), entry.getKey(), 0, entry.getValue());
+            Log.i("SOUNDBOARDING_SanityCheck", "Sound: " + entry.getValue());
         }
-        //TODO remove inflater when sure it is not needed
-        //getMenuInflater().inflate(R.menu.sound_options_menu, menu);
     }
+
 
     // Gets called when user selects context menu item
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        Log.i("SOUNDBOARDING_SanityCheck", "Button ID received: " + item.getGroupId());
+        Log.i("SOUNDBOARDING_SanityCheck", "Sound ID received: " + item.getItemId());
         // change the button sound based on which item was selected
-        if (soundsIDList.contains(item.getItemId())) {
-            buttonSoundIDList.set(current_button, item.getItemId());
-            Toast.makeText(this, "Changed to " + soundIDMap.get(item.getItemId()), Toast.LENGTH_LONG).show();
+        if (soundIDtoStringMap.containsKey(item.getItemId())) {
+            buttonIDtoSoundIDMap.replace(item.getGroupId(), item.getItemId());
+            Toast.makeText(this, "Changed to " + soundIDtoStringMap.get(item.getItemId()), Toast.LENGTH_LONG).show();
             return true;
         } else {
-            Log.i("SOUNDBOARDING_Error", soundIDMap.get(item.getItemId()) + " sound not found");
+            Log.i("SOUNDBOARDING_Error", soundIDtoStringMap.get(item.getItemId()) + " sound not found");
             Toast.makeText(this, "No Change", Toast.LENGTH_LONG).show();
             return super.onContextItemSelected(item);
         }
@@ -97,70 +76,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     // Detect which button was (single) pressed
-    //TODO consider making it more dynamic
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.button1:
-                mp = MediaPlayer.create(this, buttonSoundIDList.get(0));
-                mp.start();
-                break;
-            case R.id.button2:
-                mp = MediaPlayer.create(this, buttonSoundIDList.get(1));
-                mp.start();
-                break;
-            case R.id.button3:
-                mp = MediaPlayer.create(this, buttonSoundIDList.get(2));
-                mp.start();
-                break;
-            case R.id.button4:
-                mp = MediaPlayer.create(this, buttonSoundIDList.get(3));
-                mp.start();
-                break;
-            case R.id.button5:
-                mp = MediaPlayer.create(this, buttonSoundIDList.get(4));
-                mp.start();
-                break;
-            default:
-                Log.i("SOUNDBOARDING_Error", "Button onClick creation error");
-        }
-    }
-
-
-    // Prepare initial sounds with random sounds
-    //TODO make this function reset sounds properly on reload activity
-    private void soundInit() {
-        int soundID = (int)(Math.random() * 6 + 1);
-        buttonSoundIDList.add(0, soundsIDList.get(soundID));
-        soundID = (int)(Math.random() * 6 + 1);
-        buttonSoundIDList.add(1, soundsIDList.get(soundID));
-        soundID = (int)(Math.random() * 6 + 1);
-        buttonSoundIDList.add(2, soundsIDList.get(soundID));
-        soundID = (int)(Math.random() * 6 + 1);
-        buttonSoundIDList.add(3, soundsIDList.get(soundID));
-        soundID = (int)(Math.random() * 6 + 1);
-        buttonSoundIDList.add(4, soundsIDList.get(soundID));
-    }
-
-
-    // Prepare the buttons with click listeners and register them
-    private void buttonInit() {
-        // Iterate over declared buttons to initialize, add context, add to list
-        buttonList = new Button[5];
-        for (int i = 0; i < buttonList.length; i++) {
-            if (i == 0) {
-                buttonList[i] = findViewById(R.id.button1);
-            } else if (i == 1) {
-                buttonList[i] = findViewById(R.id.button2);
-            } else if (i == 2) {
-                buttonList[i] = findViewById(R.id.button3);
-            } else if (i == 3) {
-                buttonList[i] = findViewById(R.id.button4);
-            } else if (i == 4) {
-                buttonList[i] = findViewById(R.id.button5);
-            }
-            buttonList[i].setOnClickListener(this);
-            registerForContextMenu(buttonList[i]);
+        if (buttonIDtoSoundIDMap.containsKey(view.getId())) {
+            mp = MediaPlayer.create(this, buttonIDtoSoundIDMap.get(view.getId()));
+            mp.start();
+        } else {
+            Log.i("SOUNDBOARDING_Error", "Button onClick creation error");
         }
     }
 
@@ -177,11 +99,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .toLowerCase()
                         .replaceAll("_", " ");
                 soundsIDList.add(resourceID);
-                soundIDMap.put(resourceID, dataName);
-                Log.i("SOUNDBOARDING_SanityCheck", "File Name: " + soundIDMap.get(resourceID));
+                soundIDtoStringMap.put(resourceID, dataName);
+                Log.i("SOUNDBOARDING_SanityCheck", "File Name: " + soundIDtoStringMap.get(resourceID));
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    // Prepare the buttons with click listeners and register them and random starting sounds
+    private void buttonInit() {
+        // Iterate over declared buttons to initialize, add context, add to list
+        for (int i = 0; i < buttonCount; i++) {
+            if (i == 0) {
+                buttonIDList.add(i, R.id.button1);
+            } else if (i == 1) {
+                buttonIDList.add(i, R.id.button2);
+            } else if (i == 2) {
+                buttonIDList.add(i, R.id.button3);
+            } else if (i == 3) {
+                buttonIDList.add(i, R.id.button4);
+            } else if (i == 4) {
+                buttonIDList.add(i, R.id.button5);
+            }
+            findViewById(buttonIDList.get(i)).setOnClickListener(this);
+            registerForContextMenu(findViewById(buttonIDList.get(i)));
+
+            // register random sounds to start
+            int soundID = (int)(Math.random() * 6 + 1);
+            buttonIDtoSoundIDMap.put(buttonIDList.get(i), soundsIDList.get(soundID));
         }
     }
 }
