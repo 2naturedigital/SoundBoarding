@@ -37,11 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonInit();
 
         // Populate ArrayList "soundsIDList" and HashMap "soundIDMap" with sound files
-        try {
-            initFromRaw();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        initFromRaw();
 
         // Set up random starting sounds
         soundInit();
@@ -170,18 +166,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     // Method to populate ArrayList & HashMap with sound files
-    private void initFromRaw() throws IllegalAccessException {
-        Field[] fields = R.raw.class.getFields();
-        for (Field field : fields) {
-            int resourceID = field.getInt(field);
-            String fieldName = field.getName();
-            String dataName = fieldName.substring(0,1)
-                    .toUpperCase() + fieldName.substring(1)
-                    .toLowerCase()
-                    .replaceAll("_", " ");
-            soundsIDList.add(resourceID);
-            soundIDMap.put(resourceID, dataName);
-            Log.i("SOUNDBOARDING_SanityCheck", "File Name: " + soundIDMap.get(resourceID));
+    private void initFromRaw() {
+        try {
+            Field[] fields = R.raw.class.getFields();
+            for (Field field : fields) {
+                int resourceID = field.getInt(field);
+                String fieldName = field.getName();
+                String dataName = fieldName.substring(0,1)
+                        .toUpperCase() + fieldName.substring(1)
+                        .toLowerCase()
+                        .replaceAll("_", " ");
+                soundsIDList.add(resourceID);
+                soundIDMap.put(resourceID, dataName);
+                Log.i("SOUNDBOARDING_SanityCheck", "File Name: " + soundIDMap.get(resourceID));
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 }
