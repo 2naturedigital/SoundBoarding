@@ -20,7 +20,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Class constants
-    final Integer buttonCount = 5;
+    final Integer buttonCount = 12;
 
     // Class variables
     private MediaPlayer mp;
@@ -122,6 +122,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonIDList.add(i, R.id.button4);
             } else if (i == 4) {
                 buttonIDList.add(i, R.id.button5);
+            } else if (i == 5) {
+                buttonIDList.add(i, R.id.button6);
+            } else if (i == 6) {
+                buttonIDList.add(i, R.id.button7);
+            } else if (i == 7) {
+                buttonIDList.add(i, R.id.button8);
+            } else if (i == 8) {
+                buttonIDList.add(i, R.id.button9);
+            } else if (i == 9) {
+                buttonIDList.add(i, R.id.button10);
+            } else if (i == 10) {
+                buttonIDList.add(i, R.id.button11);
+            } else if (i == 11) {
+                buttonIDList.add(i, R.id.button12);
             }
             findViewById(buttonIDList.get(i)).setOnClickListener(this);
             registerForContextMenu(findViewById(buttonIDList.get(i)));
