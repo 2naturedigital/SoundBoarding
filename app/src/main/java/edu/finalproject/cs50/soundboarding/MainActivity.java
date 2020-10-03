@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // change the button sound based on which item was selected
         if (soundIDtoStringMap.containsKey(item.getItemId())) {
             buttonIDtoSoundIDMap.replace(item.getGroupId(), item.getItemId());
+            Button tempButton = findViewById(item.getGroupId());
+            tempButton.setText(soundIDtoStringMap.get(item.getItemId()));
             Toast.makeText(this, "Changed to " + soundIDtoStringMap.get(item.getItemId()), Toast.LENGTH_LONG).show();
             return true;
         } else {
