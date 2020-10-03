@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final Integer BUTTONCOUNT = 12;
 
     // Class variables
-    private MediaPlayer mp;
+    private MediaPlayer mediaPlayer;
     List<Integer> soundsIDList = new ArrayList<>();
     List<Button> buttonList = new ArrayList<>();
     Map<Integer, String> soundIDtoStringMap = new HashMap<>();
@@ -66,15 +66,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int sndID = item.getItemId();
         Log.i("SOUNDBOARDING_SanityCheck", "Button ID received: " + btnID);
         Log.i("SOUNDBOARDING_SanityCheck", "Sound ID received: " + sndID);
-        // change the button sound based on which item was selected
+
+        // Change the button sound based on which item was selected
         if (soundIDtoStringMap.containsKey(sndID)) {
-            buttonIDtoSoundIDMap.replace(btnID, sndID);
-            buttonList.get(buttonList.indexOf(findViewById(btnID))).setText(soundIDtoStringMap.get(sndID));
-            Toast.makeText(this, "Changed to " + soundIDtoStringMap.get(sndID), Toast.LENGTH_LONG).show();
-            return true;
+            // Only change if necessary
+            if (buttonIDtoSoundIDMap.get(btnID) != sndID) {
+                buttonIDtoSoundIDMap.replace(btnID, sndID);
+                buttonList.get(buttonList.indexOf(findViewById(btnID))).setText(soundIDtoStringMap.get(sndID));
+                Toast.makeText(this, "Changed to " + soundIDtoStringMap.get(sndID), Toast.LENGTH_SHORT).show();
+                return true;
+            } else {
+                Toast.makeText(this, "Same sound chosen", Toast.LENGTH_SHORT).show();
+                return super.onContextItemSelected(item);
+            }
         } else {
             Log.i("SOUNDBOARDING_Error", soundIDtoStringMap.get(sndID) + " sound not found");
-            Toast.makeText(this, "No Change", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Change", Toast.LENGTH_SHORT).show();
             return super.onContextItemSelected(item);
         }
     }
@@ -85,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         int btnID = view.getId();
         if (buttonIDtoSoundIDMap.containsKey(btnID)) {
-            mp = MediaPlayer.create(this, buttonIDtoSoundIDMap.get(btnID));
-            mp.start();
+            mediaPlayer = MediaPlayer.create(this, buttonIDtoSoundIDMap.get(btnID));
+            mediaPlayer.start();
         } else {
             Log.i("SOUNDBOARDING_Error", "Button onClick creation error");
         }
