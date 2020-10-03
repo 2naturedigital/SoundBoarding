@@ -22,7 +22,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Class constants
-    final Integer buttonCount = 12;
+    final Integer BUTTONCOUNT = 12;
 
     // Class variables
     private MediaPlayer mp;
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // Prepare the buttons with click listeners and register them and random starting sounds
     private void buttonInit() {
         // Iterate over declared buttons to initialize, add context, add to list
-        for (int i = 0; i < buttonCount; i++) {
+        for (int i = 0; i < BUTTONCOUNT; i++) {
             if (i == 0) {
                 buttonIDList.add(i, R.id.button1);
             } else if (i == 1) {
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             registerForContextMenu(findViewById(buttonIDList.get(i)));
 
             // register random sounds to start
-            int soundID = (int)(Math.random() * 6 + 1);
+            int soundID = (int)(Math.random() * soundsIDList.size());
             buttonIDtoSoundIDMap.put(buttonIDList.get(i), soundsIDList.get(soundID));
         }
     }
