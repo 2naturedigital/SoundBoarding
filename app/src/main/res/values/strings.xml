@@ -1,15 +1,17 @@
 <resources>
     <string name="app_name">SoundBoarding</string>
-    <string name="Button">Sound</string>
-    <string name="Follow">Social Media URLs</string>
-    <string name="Button2">Clicky</string>
-    <string name="Button3">touch me</string>
-    <string name="Button4">long and soft</string>
-    <string name="Button5">push my button</string>
-    <string name="Button6">right here</string>
-    <string name="Button7">long press me!</string>
-    <string name="Button8">touch and hold me</string>
-    <string name="Button9">Ok I stop now</string>
+    <string name="Button">Long press</string>
+    <string name="Button2">a button to</string>
+    <string name="Button3">set a sound</string>
+    <string name="Button4">Touch me</string>
+    <string name="Button5">(the button)</string>
+    <string name="Button6">to hear sound</string>
+    <string name="Button7">Let us know</string>
+    <string name="Button8">what features</string>
+    <string name="Button9">you want</string>
+    <string name="Button10">Thank you</string>
+    <string name="Button11">for supporting</string>
+    <string name="Button12">soundboarding</string>
     <string name="Jgithub">www.github.com/videovillain</string>
     <string name="Rgithub">www.github.com/lemonplague</string>
 </resources>
