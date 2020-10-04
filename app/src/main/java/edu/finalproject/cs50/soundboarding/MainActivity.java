@@ -1,5 +1,6 @@
 package edu.finalproject.cs50.soundboarding;
 
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,10 +22,9 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Class constants
-    final Integer BUTTONCOUNT = 12;
+    final Integer BUTTON_COUNT = 12;
+    public static final String SHARED_PREFS = "sharedPrefs";
 
-    // Class variables
-    private MediaPlayer mediaPlayer;
     List<Integer> soundsIDList = new ArrayList<>();
     List<Button> buttonList = new ArrayList<>();
     Map<Integer, String> soundIDtoStringMap = new HashMap<>();
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initFromRaw();
         // Initialize buttons
         buttonInit();
+        // Load/update any saved data
+        loadData();
     }
 
 
@@ -70,10 +72,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Change the button sound based on which item was selected
         if (soundIDtoStringMap.containsKey(sndID)) {
             // Only change if necessary
-            if (buttonIDtoSoundIDMap.get(btnID) != sndID) {
+            Integer soundID = buttonIDtoSoundIDMap.get(btnID);
+            if (soundID != null && soundID != sndID) {
                 buttonIDtoSoundIDMap.replace(btnID, sndID);
-                buttonList.get(buttonList.indexOf(findViewById(btnID))).setText(soundIDtoStringMap.get(sndID));
+                Button b = findViewById(btnID);
+                buttonList.get(buttonList.indexOf(b)).setText(soundIDtoStringMap.get(sndID));
                 Toast.makeText(this, "Changed to " + soundIDtoStringMap.get(sndID), Toast.LENGTH_SHORT).show();
+                saveData();
                 return true;
             } else {
                 Toast.makeText(this, "Same sound chosen", Toast.LENGTH_SHORT).show();
@@ -91,9 +96,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         int btnID = view.getId();
+        Integer sndID = buttonIDtoSoundIDMap.get(btnID);
         if (buttonIDtoSoundIDMap.containsKey(btnID)) {
-            mediaPlayer = MediaPlayer.create(this, buttonIDtoSoundIDMap.get(btnID));
-            mediaPlayer.start();
+            if (sndID != null) {
+                MediaPlayer mediaPlayer = MediaPlayer.create(this, sndID);
+                mediaPlayer.start();
+            }
         } else {
             Log.i("SOUNDBOARDING_Error", "Button onClick creation error");
         }
@@ -124,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // Prepare the buttons with click listeners and register them and random starting sounds
     private void buttonInit() {
         // Iterate over declared buttons to initialize, add context, add to list
-        for (int i = 0; i < BUTTONCOUNT; i++) {
+        for (int i = 0; i < BUTTON_COUNT; i++) {
             if (i == 0) {
                 buttonList.add(i, (Button) findViewById(R.id.button1));
             } else if (i == 1) {
@@ -158,6 +166,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonIDtoSoundIDMap.put(buttonList.get(i).getId(), soundsIDList.get(soundID));
             buttonList.get(i).setText(soundIDtoStringMap.get(soundsIDList.get(soundID)));
             Log.i("SOUNDBOARDING_SanityCheck", "Button Name: " + soundIDtoStringMap.get(soundsIDList.get(soundID)));
+        }
+    }
+
+
+    // Save button sounds on exit/reload
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // Store data with view as a string and sound id as data saved for that button
+        for (Button b : buttonList) {
+            Integer soundID = buttonIDtoSoundIDMap.get(b.getId());
+            if (soundID != null) {
+                editor.putInt(String.valueOf(b.getId()), soundID);
+            }
+        }
+
+        editor.apply();
+    }
+
+
+    // Load the saved preferences data and update sounds and button text appropriately
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+
+        // Restore the button label and sound id if it was saved, default to random sound if not found
+        for (Button b : buttonList) {
+            int soundID = (int)(Math.random() * soundsIDList.size());
+            int sharedPrefsSoundID = sharedPreferences.getInt(String.valueOf(b.getId()), soundID);
+            buttonIDtoSoundIDMap.replace(b.getId(), sharedPrefsSoundID);
+            b.setText(soundIDtoStringMap.get(sharedPrefsSoundID));
         }
     }
 }
