@@ -10,4 +10,6 @@
     <string name="Button7">long press me!</string>
     <string name="Button8">touch and hold me</string>
     <string name="Button9">Ok I stop now</string>
+    <string name="Jgithub">www.github.com/videovillain</string>
+    <string name="Rgithub">www.github.com/lemonplague</string>
 </resources>
