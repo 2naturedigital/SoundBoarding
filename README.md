@@ -10,6 +10,6 @@ We've made a soundboard for you that lets you customize and save 12 different so
 
 Please enjoy to the fullest and let us know if you want to see any changes or new features.
 
-[Click here for a video intro]()
+[Video presentation](https://www.youtube.com/watch?v=75eax_8SYyI)
 
 Richard & James
