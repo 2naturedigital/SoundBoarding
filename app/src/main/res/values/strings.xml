@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SoundBoarding</string>
-    <string name="Button">Long press</string>
+    <string name="Button1">Long press</string>
     <string name="Button2">a button to</string>
     <string name="Button3">set a sound</string>
     <string name="Button4">Touch me</string>
@@ -10,8 +10,9 @@
     <string name="Button8">what features</string>
     <string name="Button9">you want</string>
     <string name="Button10">Thank you</string>
-    <string name="Button11">for supporting</string>
-    <string name="Button12">soundboarding</string>
+    <string name="Button11">for downloading</string>
+    <string name="Button12">Schwifty Soundboard</string>
     <string name="Jgithub">www.github.com/videovillain</string>
     <string name="Rgithub">www.github.com/lemonplague</string>
+    <string name="context_menu_header_title">Select Sound</string>
 </resources>

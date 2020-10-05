@@ -62,7 +62,7 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:padding="4dp"
-        android:text="@string/Button"
+        android:text="@string/Button1"
         android:textColor="@color/colorPrimaryDark"
         android:backgroundTint="@color/colorPrimary"
         android:textSize="12sp"
