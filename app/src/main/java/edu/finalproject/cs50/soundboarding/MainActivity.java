@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SpannableString headerTitle = new SpannableString(getResources().getString(R.string.context_menu_header_title));
         headerTitle.setSpan(new ForegroundColorSpan(Color.BLACK), 0, headerTitle.length(), 0);
         menu.setHeaderTitle(headerTitle);
-        Log.i("SOUNDBOARDING_SanityCheck", "Button ID: " + btnID);
+        Log.i("SOUNDBOARDING_Check", "Button ID: " + btnID);
 
         for (Map.Entry<Integer, String> sound : soundIDtoStringMap.entrySet()) {
             menu.add(btnID, sound.getKey(), 0, sound.getValue());
-            Log.i("SOUNDBOARDING_SanityCheck", "Sound: " + sound.getValue());
+            Log.i("SOUNDBOARDING_Check", "Sound: " + sound.getValue());
         }
     }
 
@@ -81,16 +81,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Only change if necessary
             Integer soundID = buttonIDtoSoundIDMap.get(btnID);
             if (soundID != null && !soundID.equals(sndID)) {
-                buttonIDtoSoundIDMap.replace(btnID, sndID);
+                buttonIDtoSoundIDMap.put(btnID, sndID); //changed ".replace" method to .put
                 Button b = findViewById(btnID);
                 buttonList.get(buttonList.indexOf(b)).setText(soundIDtoStringMap.get(sndID));
                 Toast.makeText(this, "Changed to " + soundIDtoStringMap.get(sndID), Toast.LENGTH_SHORT).show();
-                Log.i("SOUNDBOARDING_SanityCheck", "Sound changed to: " + soundIDtoStringMap.get(sndID));
+                Log.i("SOUNDBOARDING_Check", "Sound changed to: " + soundIDtoStringMap.get(sndID));
                 saveData();
                 return true;
             } else {
                 Toast.makeText(this, "Same sound chosen", Toast.LENGTH_SHORT).show();
-                Log.i("SOUNDBOARDING_SanityCheck", "Same sound chosen, no change made");
+                Log.i("SOUNDBOARDING_Check", "Same sound chosen, no change made");
                 return super.onContextItemSelected(item);
             }
         } else {
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .replaceAll("_", " ");
                 soundsIDList.add(resourceID);
                 soundIDtoStringMap.put(resourceID, dataName);
-                Log.i("SOUNDBOARDING_SanityCheck", "Loaded file: " + soundIDtoStringMap.get(resourceID));
+                Log.i("SOUNDBOARDING_Check", "Loaded file: " + soundIDtoStringMap.get(resourceID));
             }
         } catch (IllegalAccessException error) {
             error.printStackTrace();
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.apply();
 
         Toast.makeText(this, "Sounds saved", Toast.LENGTH_SHORT).show();
-        Log.i("SOUNDBOARDING_SanityCheck", "Sounds saved");
+        Log.i("SOUNDBOARDING_Check", "Sounds saved");
     }
 
 
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (Button button : buttonList) {
             Integer sharedPrefsSoundID = sharedPreferences.getInt(String.valueOf(button.getId()), 0);
             if (!sharedPrefsSoundID.equals(INITIAL_SOUND_ID)) {
-                buttonIDtoSoundIDMap.replace(button.getId(), sharedPrefsSoundID);
+                buttonIDtoSoundIDMap.put(button.getId(), sharedPrefsSoundID); //changed ".replace" method to .put
                 button.setText(soundIDtoStringMap.get(sharedPrefsSoundID));
             }
         }
